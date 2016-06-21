@@ -15,7 +15,14 @@ function init()
 	elem.setAttribute("class", "TusCommentosPNButton");
 	elem.setAttribute("innerHTML", "false");
 	
-	$(".content-wrapper").after(elem);
+	$(".content-wrapper").each(function() {
+		var a = document.createElement('div');
+		a.innerHTML = $(this).html();
+		
+		console.log("HELLLLLLLL = " + this.firstChild);
+		console.log("Break!!!");
+		$( this ).after(elem);
+	})
 	
 	$(".TusCommentosPNButton").click(function() {
 		if(this.getAttribute("innerHTML") == "false") {
