@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
 
-  "name": "TuComentos",
-  "description": "This extension shows a Google Image search result for the current page",
+  "name": "TusComentos",
+  "description": "SomethingWithComments",
   "version": "1.0",
 
   "browser_action": {
@@ -10,10 +10,15 @@
     "default_popup": "popup.html"
   },
   
+  "web_accessible_resources": [
+    "images/PNDisabled.png",
+	"images/PNEnabled.png"
+  ],
+  
   "content_scripts": [
   {
       "matches": [
-        "https://www.youtube.com/watch*"
+        "https://www.youtube.com/*"
       ],
       "js": ["jquery-2.2.3.min.js","inject.js"]
     }
