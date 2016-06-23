@@ -1,20 +1,24 @@
-var picHeight = 15;
-var picwidth = 15;
+var picHeight = 25;
+var picwidth = 25;
 var picClass = "TusCommentosPNButton";
 var enabledPicSrc = chrome.extension.getURL('images/PNEnabled.png');
 var disabledPicSrc = chrome.extension.getURL('images/PNDisabled.png');
 var picElements;
+var video;
 
 $(document).ready(function(){
+	video = document.querySelector('video.video-stream');
+	setTimeout(checkPlayerState, 1000);
 	init();
 });
 
 function init()
-{
-	$(".watch-title").click(function(){
-        console.log($(".watch-title").text());
-    });
-	
+{	
+
+	document.addEventListener("DOMContentLoaded", function() {
+		console.log("DOM fully loaded and parsed");
+	});
+
 	$(".content-wrapper").each(function() {
 		var el = $( '<div></div>' );
 		el.html(this.innerHTML);
@@ -27,9 +31,6 @@ function init()
 				attr("class", picClass).
 				attr("isPicEnabled", false).
 				attr("id", currHref);
-				
-		console.log("IYAR. currHref = " + currHref);
-		console.log("IYAR. elem.id = " + elem.attr("isPicEnabled"));
 		$(this).after(elem);
 	})
 	
@@ -43,3 +44,11 @@ function init()
 		}
 	})
 } // End of init
+
+function checkPlayerState() {
+	var dest = $("[isPicEnabled='true']").attr('id');
+	if(dest != undefined && video && video.currentTime == video.duration ) {
+		window.location="https://www.youtube.com" + dest;
+	}
+	setTimeout(checkPlayerState, 1000);
+}
