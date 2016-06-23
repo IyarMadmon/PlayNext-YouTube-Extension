@@ -1,4 +1,13 @@
-//init
+var picHeight = 15;
+var picwidth = 15;
+var picClass = "TusCommentosPNButton";
+var enabledPicSrc = chrome.extension.getURL('images/PNEnabled.png');
+var disabledPicSrc = chrome.extension.getURL('images/PNDisabled.png');
+var picElements;
+
+$(document).ready(function(){
+	init();
+});
 
 function init()
 {
@@ -6,37 +15,31 @@ function init()
         console.log($(".watch-title").text());
     });
 	
-	
-	var elem = document.createElement("img");
-	//elem.src = 'https://cdn0.iconfinder.com/data/icons/command-buttons/512/Fast_Forward-512.png';
-	elem.src = chrome.extension.getURL('images/PNDisabled.png');
-	elem.setAttribute("height", "15");
-	elem.setAttribute("width", "15");
-	elem.setAttribute("class", "TusCommentosPNButton");
-	elem.setAttribute("innerHTML", "false");
-	
 	$(".content-wrapper").each(function() {
-		var a = document.createElement('div');
-		a.innerHTML = $(this).html();
+		var el = $( '<div></div>' );
+		el.html(this.innerHTML);
+		var currHref = $('a', el).first().attr('href');
 		
-		console.log("HELLLLLLLL = " + this.firstChild);
-		console.log("Break!!!");
-		$( this ).after(elem);
+		var elem = $("<img></img>").
+				attr("src", disabledPicSrc).
+				attr("height", picHeight).
+				attr("width", picwidth).
+				attr("class", picClass).
+				attr("isPicEnabled", false).
+				attr("id", currHref);
+				
+		console.log("IYAR. currHref = " + currHref);
+		console.log("IYAR. elem.id = " + elem.attr("isPicEnabled"));
+		$(this).after(elem);
 	})
 	
-	$(".TusCommentosPNButton").click(function() {
-		if(this.getAttribute("innerHTML") == "false") {
+	$("." + picClass).click(function() {
+		if(this.getAttribute("isPicEnabled") == "false") {
 			this.src = chrome.extension.getURL('images/PNEnabled.png');
-			this.setAttribute("innerHTML", "true");	
+			this.setAttribute("isPicEnabled", true);	
 		} else {
 			this.src = chrome.extension.getURL('images/PNDisabled.png');
-			this.setAttribute("innerHTML", "false");	
+			this.setAttribute("isPicEnabled", false);	
 		}
-		
-		
 	})
-}
-
-$(document).ready(function(){
-	init();
-});
+} // End of init
