@@ -1,0 +1,53 @@
+<html>
+<head>
+<meta name="google-signin-client_id" content=" 386919689197-iml1hm9tvh47t6mthoigf8aqlf211n50.apps.googleusercontent.com">
+<script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+<script>
+	window.onLoadCallback = function(){
+  gapi.auth2.init({
+      client_id: 'filler_text_for_client_id.apps.googleusercontent.com'
+    });
+}
+</script>
+<title>Headline</title>
+</head>
+<body>
+
+<h1>Eitan and Iyar Practice Computers</h1>
+<p>They are supposed to already know this fucking stuff</p>
+
+
+<iframe width="420" height="345"
+src="https://www.youtube.com/embed/85klgXTBeKY">
+</iframe>
+<br><br>
+
+<div id="my-signin2"></div>
+  <script>
+    function onSuccess(googleUser) {
+      console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
+    }
+    function onFailure(error) {
+      console.log(error);
+    }
+    function renderButton() {
+      gapi.signin2.render('my-signin2', {
+        'scope': 'profile email',
+        'width': 240,
+        'height': 50,
+        'longtitle': true,
+        'theme': 'dark',
+        'onsuccess': onSuccess,
+        'onfailure': onFailure
+      });
+    }
+  </script>
+
+  
+
+
+
+</body>
+</html>
+
+
