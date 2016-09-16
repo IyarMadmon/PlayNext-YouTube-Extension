@@ -1,0 +1,25 @@
+{
+  "manifest_version": 2,
+
+  "name": "PlayNext YouTube",
+  "description": "Select next video to be played automatically",
+  "version": "1.0",
+
+  "browser_action": {
+    "default_icon": "icon.png"
+  },
+  
+  "web_accessible_resources": [
+    "images/PNDisabled.png",
+	"images/PNEnabled.png"
+  ],
+  
+  "content_scripts": [
+  {
+      "matches": [
+        "https://www.youtube.com/*"
+      ],
+      "js": ["jquery-2.2.3.min.js","playNext.js"]
+    }
+]  
+}
