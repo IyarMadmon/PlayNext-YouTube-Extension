@@ -12,8 +12,8 @@ var engine = {
       if(this.hasNavigated()) {
         lastPageUrl = {href: location.href, isLoaded: true};
         video = document.querySelector('video.video-stream');
-        setTimeout(buttons.init.bind(buttons), 800);
-        setTimeout(likePercentage.init.bind(likePercentage), 800);
+        setTimeout(buttons.init.bind(buttons), 500);
+        setTimeout(likePercentage.init.bind(likePercentage), 500);
       } else if (this.hasVideoEnded()) {
         var nextVideo;
         if(nextVideo = buttons.nextVideo()) {
@@ -50,7 +50,8 @@ var buttons = {
   },
 
   createButtons: function() {
-    console.log("createButtons", new Date().getTime());
+    console.log("createButtons");
+    var isDone = false;
     $(".content-wrapper").each(function() {
   		if(!$(this).next().hasClass(buttons.picClass)) {
   			var el = $( '<div></div>' );
@@ -63,14 +64,18 @@ var buttons = {
   					attr("class", buttons.picClass).
   					attr("id", currHref);
   			$(this).after(elem);
+        isDone = true;
   		}
     });
+
+  if(!isDone)  setTimeout(this.init.bind(this), 200);
   },
   bindEvents: function() {
-    $("." + this.picClass).on("click", this.toggleButton);
+    console.log("bindEvents");
+    $("." + "watch-sidebar-body").on("." + this.picClass, "click", this.toggleButton);
     $("#watch-more-related-button").click(function() {
       console.log("more", new Date().getTime());
-  		setTimeout(buttons.createButtons, 1000);
+  		setTimeout(buttons.createButtons.bind(buttons), 500);
   	});
   },
   toggleButton: function () {
@@ -93,13 +98,19 @@ var buttons = {
 
 var likePercentage = {
   init: function() {
+    console.log("likes");
     var calc = 0;
-  	var numberoflikes = parseInt($('.like-button-renderer-like-button').find('span.yt-uix-button-content').html().split(',').join(''));
-  	var numberofdislikes = parseInt($('.like-button-renderer-dislike-button').find('span.yt-uix-button-content').html().split(',').join(''));
-  	if(numberoflikes !== 0 || numberofdislikes !== 0) {
-      calc = (numberoflikes / (numberoflikes+numberofdislikes)) * 100;
+    var numberoflikes = $('.like-button-renderer-like-button');
+  	if(numberoflikes.length > 0) {
+      numberoflikes = parseInt((numberoflikes).find('span.yt-uix-button-content').html().split(',').join(''));
+      var numberofdislikes = parseInt($('.like-button-renderer-dislike-button').find('span.yt-uix-button-content').html().split(',').join(''));
+    	if(numberoflikes !== 0 || numberofdislikes !== 0) {
+        calc = (numberoflikes / (numberoflikes+numberofdislikes)) * 100;
+      }
+    	$('.like-button-renderer').before($("<span style='color:#167ac6;'>"  +calc.toFixed(2)+ "%</span>"));
+      return;
     }
-  	$('.like-button-renderer').before($("<span style='color:#167ac6;'>"  +calc.toFixed(2)+ "%</span>"));
+    setTimeout(this.init.bind(this), 200);
   }
 };
 
