@@ -50,6 +50,7 @@ var buttons = {
   },
 
   attachMoreVideos : function() {
+    setTimeout(this.createButtons.bind(this), 500, 10);
   },
 
   createButtons: function(attemptsLeft) {
