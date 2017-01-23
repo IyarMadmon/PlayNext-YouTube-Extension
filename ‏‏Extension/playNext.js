@@ -46,43 +46,44 @@ var buttons = {
 
   init: function() {
     this.createButtons(25);
-    $("#watch-more-related-button").click(function() {
-  		setTimeout(buttons.createButtons.bind(buttons), 500);
-  	});
+    $("#watch-more-related-button").click(this.attachMoreVideos.bind(this));
+  },
+
+  attachMoreVideos : function() {
   },
 
   createButtons: function(attemptsLeft) {
-    var isDone = false;
-    $(".content-wrapper").each(function() {
-  		if(!$(this).next().hasClass(buttons.picClass)) {
-  			var el = $( '<div></div>' );
-  			el.html(this.innerHTML);
-  			var currHref = $('a', el).first().attr('href');
-  			var elem = $("<img></img>").
-  					attr("src", buttons.disabledPicSrc).
-  					attr("height", buttons.picHeight).
-  					attr("width", buttons.picwidth).
-  					attr("class", buttons.picClass).
-  					attr("id", currHref);
-  			$(this).after(elem);
-        $(elem).click(buttons.toggleButton);
-        isDone = true;
-  		}
-    });
-
-  if(!isDone && attemptsLeft > 0)  setTimeout(this.createButtons.bind(this), 100, attemptsLeft-1);
+    var returned = $(".content-wrapper:not(.picClassprev)").each(this.innerCreateButton.bind(this));
+    if(returned.length == 0 && attemptsLeft > 0) {
+      setTimeout(this.createButtons.bind(this), 100, attemptsLeft-1);
+    }
   },
-  toggleButton: function () {
-    if(buttons.selectedButton === null) {
-      this.setAttribute("src", buttons.enabledPicSrc);
-      buttons.selectedButton = this;
-    } else if(buttons.selectedButton === this){
-      buttons.selectedButton = null;
-      this.setAttribute("src", buttons.disabledPicSrc);
+
+  innerCreateButton: function(key, contentWrapperElem) {
+    $(contentWrapperElem).addClass("picClassprev");
+    var el = $( '<div></div>' );
+    el.html(contentWrapperElem.innerHTML);
+    var currHref = $('a', el).first().attr('href');
+    var elem = $("<img></img>").
+        attr("src", this.disabledPicSrc).
+        attr("height", this.picHeight).
+        attr("width", this.picwidth).
+        attr("class", this.picClass).
+        attr("id", currHref);
+    $(contentWrapperElem).after(elem);
+    $(elem).click(this.toggleButton.bind(this));
+  },
+  toggleButton: function (event) {
+    if(this.selectedButton === null) {
+      event.target.setAttribute("src", this.enabledPicSrc);
+      this.selectedButton = event.target;
+    } else if(this.selectedButton === event.target){
+      this.selectedButton = null;
+      event.target.setAttribute("src", this.disabledPicSrc);
     } else {
-      buttons.selectedButton.setAttribute("src", buttons.disabledPicSrc);
-      this.setAttribute("src", buttons.enabledPicSrc);
-      buttons.selectedButton = this;
+      this.selectedButton.setAttribute("src", this.disabledPicSrc);
+      event.target.setAttribute("src", this.enabledPicSrc);
+      this.selectedButton = event.target;
     }
   },
   nextVideo: function() {
