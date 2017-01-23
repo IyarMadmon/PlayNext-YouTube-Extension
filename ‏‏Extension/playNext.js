@@ -13,7 +13,7 @@ var engine = {
         lastPageUrl = {href: location.href, isLoaded: true};
         video = document.querySelector('video.video-stream');
         setTimeout(buttons.init.bind(buttons), 500);
-        setTimeout(likePercentage.init.bind(likePercentage), 500, 10);
+        setTimeout(likePercentage.init.bind(likePercentage), 500, 25);
       } else if (this.hasVideoEnded()) {
         var nextVideo;
         if(nextVideo = buttons.nextVideo()) {
@@ -45,13 +45,13 @@ var buttons = {
   selectedButton: null,
 
   init: function() {
-    this.createButtons();
+    this.createButtons(25);
     $("#watch-more-related-button").click(function() {
   		setTimeout(buttons.createButtons.bind(buttons), 500);
   	});
   },
 
-  createButtons: function() {
+  createButtons: function(attemptsLeft) {
     var isDone = false;
     $(".content-wrapper").each(function() {
   		if(!$(this).next().hasClass(buttons.picClass)) {
@@ -70,7 +70,7 @@ var buttons = {
   		}
     });
 
-  if(!isDone)  setTimeout(this.createButtons.bind(this), 200);
+  if(!isDone && attemptsLeft > 0)  setTimeout(this.createButtons.bind(this), 100, attemptsLeft-1);
   },
   toggleButton: function () {
     if(buttons.selectedButton === null) {
@@ -92,7 +92,6 @@ var buttons = {
 
 var likePercentage = {
   init: function(attemptsLeft) {
-    console.log("likes, ", attemptsLeft);
     var calc = 0;
     var numberoflikes = $('.like-button-renderer-like-button');
   	if(numberoflikes.length > 0) {
