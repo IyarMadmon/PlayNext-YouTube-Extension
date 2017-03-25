@@ -3,7 +3,7 @@
 
   "name": "Play Next YouTube",
   "description": "Select next video to be played automatically. Display like percentage",
-  "version": "2.41",
+  "version": "2.412",
 
   "browser_action": {
     "default_icon": "icon.png"
