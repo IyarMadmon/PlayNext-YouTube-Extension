@@ -1,7 +1,7 @@
-{
+ {
   "manifest_version": 2,
 
-  "name": "PlayNext YouTube",
+  "name": "Play Next YouTube",
   "description": "Select next video to be played automatically. Display like percentage",
   "version": "2.41",
 
